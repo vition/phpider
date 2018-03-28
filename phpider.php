@@ -3,7 +3,7 @@ class phpider extends DOMDocument {
 
      
     protected $html="";
-    protected $tempIndex=0;
+    protected $tempHtml=false;
     public $dom=false;
     protected $nodeList="";
     protected $nowNode="";
@@ -62,7 +62,11 @@ class phpider extends DOMDocument {
      * @Desc:  选择器，支持id，class和标签
      */    
     function selector($sele,$tag="",$native=false){
-        $this->loadHTML($this->html);
+        if($this->tempHtml){
+            $this->loadHTML($this->html);
+            $this->tempHtml=false;
+        }
+        
         if(isset($this->documentElement)){
             preg_match("/^([#|.]*)([\S]+)/",$sele,$match);
             if(count($match)>2){
@@ -74,16 +78,16 @@ class phpider extends DOMDocument {
                         $allTags=$this->getElementsByTagName($tag);
                         $classHtml="";
                         for ($i=0; $i < $allTags->length ; $i++) {
-                            $classtr=$allTags->item($i)->getAttribute('class');
-                            if(trim($classtr)==$match[2]){
-                                $temphtml=$this->saveHTML($allTags->item($i));
-                                
+                            $theNode=$allTags->item($i);
+                            $classtr=$theNode->getAttribute('class');
+                            if(trim($classtr)===$match[2]){
+                                $temphtml=$this->saveHTML($theNode);
                                 $classHtml.=$temphtml;
                             }
                         }
-                        
-                        $this->loadHTML($classHtml);
+                        $this->loadHTML($this->utf8html($classHtml));
                         $this->nowNode=$this->getElementsByTagName($tag);
+                        $this->tempHtml=true;
                         break;
                     case ''://标签
                         $this->nowNode= $this->getElementsByTagName($match[2]);
@@ -114,6 +118,16 @@ class phpider extends DOMDocument {
             $this->index=$index;
             $this->nowNode=$this->nodeList->item($index);
             return $this;
+        }
+    }
+    /** 
+     * @Author: vition 
+     * @Date: 2018-03-29 00:14:01 
+     * @Desc: 判断是否存在某个属性 
+     */    
+    function hasAttribute($attr){
+        if($this->nowNode!=""){
+            return $this->nowNode->hasAttribute($attr);
         }
     }
     /** 
@@ -194,6 +208,10 @@ class phpider extends DOMDocument {
      */    
     function getCookie(){
         return $this->cookie;
+    }
+
+    function utf8html($tags){
+        return "<!DOCTYPE html><html><head><meta charset='utf-8'></head><body>".$tags."</body></html>";
     }
     /** 
      * @Author: vition 

@@ -49,12 +49,16 @@ $phpider=new phpider(); //实例化phpider
 
 $job51Html=file_get_contents("job51.html");
 $elClass=$phpider->readHtml($job51Html)->selector(".el","div");
-$file=fopen("5122.html","w+");
+$file=fopen("job5129.html","w+");
 for ($i=0; $i < $elClass->length ; $i++) { 
-    $temp=$elClass->item($i)->writeHml();
-    // fwrite($file,mb_convert_encoding($temp, "UTF-8", 'UTF-8,GBK,GB2312,BIG5'));
-    file_put_contents("5122.html",$temp);
-    print_r($temp);
+    // $theNode->hasAttribute('id')
+    if(!$elClass->item($i)->hasAttribute('id')){
+        $temp=$elClass->item($i)->writeHml();
+        fwrite($file,$temp);
+    }
+    
+    // file_put_contents("51job-{$i}.html",$temp);
+    
 }
 // print_r($phpider->writeHml());
 // file_put_contents("512.html",$elClass->writeHml());
