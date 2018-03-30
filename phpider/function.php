@@ -23,7 +23,7 @@ function clearing($str){
  * @Date: 2018-03-30 14:37:18 
  * @Desc: utf编码的html
  */}
-function utf8html($tags){
+function utf8Html($tags){
     return "<!DOCTYPE html><html><head><meta charset='utf-8'></head><body>".$tags."</body></html>";
 }
 /** 
@@ -45,4 +45,11 @@ function regular($pattern,$html){
 }
 function json_encode_cn($array){
     return json_encode($array,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+}
+function protocol($url,$protocol){
+    preg_match("/^http/",$url,$match);
+    if(isset($match[0])){
+        return $url;
+    }
+    return $protocol.$url;
 }

@@ -23,19 +23,8 @@ class phpider{
         return $this->htmlDom= new dom($html);
     }
     function childDom($html){
-        return $this->subDom= new dom(utf8html($html));
+        return $this->subDom= new dom(utf8Html($html));
     }
-    
-    
-    /** 
-     * @Author: vition 
-     * @Date: 2018-03-27 16:33:03 
-     * @Desc: 返回DOMDocument原生element。
-     */ 
-    function native(){
-        return $this->nowNode;
-    }
-    
     /** 
      * @Author: vition 
      * @Date: 2018-03-27 20:12:12 
@@ -88,6 +77,7 @@ class phpider{
         $sslCert=isset($param["sslCert"])?$param["sslCert"]:'';
         $sslKey=isset($param["sslKey"])?$param["sslKey"]:'';
         $encoding=isset($param["encoding"])?$param["encoding"]:'UTF-8';
+        $referer=isset($param["referer"])?$param["referer"]:$url;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,$verify);
@@ -102,7 +92,7 @@ class phpider{
         if($type=="post"){
             curl_setopt($ch, CURLOPT_POST, 1);
         }
-        
+        curl_setopt ($ch,CURLOPT_REFERER,$referer);
         if(!empty($header)){
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header); 
         }

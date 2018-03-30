@@ -64,7 +64,7 @@ class dom extends DOMDocument{
                                 }
                             }
                         }
-                        $this->loadHTML(utf8html($classHtml));
+                        $this->loadHTML(utf8Html($classHtml));
                         $this->nowNode=$this->getElementsByTagName($tag);
                         $this->tempHtml=true;
                         break;
@@ -83,6 +83,14 @@ class dom extends DOMDocument{
             }
         }
         return false;
+    }
+    /** 
+     * @Author: vition 
+     * @Date: 2018-03-27 16:33:03 
+     * @Desc: 返回DOMDocument原生element。
+     */ 
+    function native(){
+        return $this->nowNode;
     }
     /** 
      * @Author: vition 
