@@ -2,6 +2,9 @@
 
 ### 1，介绍
 > 通过curl_setopt对网络发起get/post请求，再使用DOMDocument对html文档进行节点和属性分析，配合正则，可以达到简单的爬虫效果。
+Auther：vition
+Email：vition@vitionst.top
+QQ：369709991
 
 ### 2，目录文件结构
 > phpider目录下有三个文件。
